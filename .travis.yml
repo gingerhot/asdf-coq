@@ -26,13 +26,13 @@ matrix:
     - os: osx
       before_script:
         - git clone https://github.com/asdf-vm/asdf.git
+        - brew install aspcud
         - . asdf/asdf.sh
         - asdf plugin-add ocaml https://github.com/vic/asdf-ocaml.git
         - asdf install ocaml 4.06.0
         - asdf global ocaml 4.06.0
         - opam install -y ocamlfind camlp5
         - asdf reshim ocaml
-        - brew install aspcud
         - export ASDF_CONCURRENCY=4
       script:
         - |
