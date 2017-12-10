@@ -1,20 +1,37 @@
 language: generic
 
-script: asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git "coqc -v"
+matrix:
+  include:
+    - os: linux
+      services:
+        - docker
+      script:
+        - |
+          bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
+          export PING_LOOP_PID=$!
+        - |
+          cat <<-EOF | docker run -i ocaml/opam:ubuntu-16.04_ocaml-4.05.0 bash -
+          set -e
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq && apt-get install -qq git curl m4
+          opam install -y ocamlfind camlp5
+          git clone https://github.com/asdf-vm/asdf.git
+          . asdf/asdf.sh
+          asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc --help'
+          EOF
+      after_script:
+        - kill -9 $PING_LOOP_PID
 
-before_script:
-  - git clone https://github.com/asdf-vm/asdf.git
-  - . asdf/asdf.sh
-  - asdf plugin-add ocaml
-  - |
-      if [ $(uname) == "Darwin" ]; then brew install aspcud; else echo "This's a Linux!"; fi
-  - asdf install ocaml 4.06.0
-  - |
-      if [ $(uname) == "Darwin" ]; then eval `opam config env --root=/Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0`; else eval `opam config env --root=/home/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0`; fi
-  - asdf global ocaml 4.06.0
-  - opam install -y ocamlfind camlp5
-  - asdf reshim ocaml
-
-os:
-  - linux
-  - osx
+    - os: osx
+      before_script:
+        - brew install ocaml opam
+        - opam install -y ocamlfind camlp5
+        - git clone https://github.com/asdf-vm/asdf.git
+        - . asdf/asdf.sh
+      script:
+        - |
+          bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
+          export PING_LOOP_PID=$!
+        - asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc --help'
+      after_script:
+        - kill -9 $PING_LOOP_PID
