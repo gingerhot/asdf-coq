@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+
+# only "version" install_type supported at present
+install_Coq() {
+    local install_type=$1
+    local version=$2
+    local install_path=$3
+    local file_name="Coq-${version}"
+
+    if [ "$TMPDIR" = "" ]; then
+        local tmp_dir=$(mktemp -d -t Coq_build_XXXXXX)
+    else
+        local tmp_dir=$TMPDIR
+    fi
+
+    local source_path=$(get_download_file_path $install_type $version $tmp_dir $file_name)
+    [ -f $source_path ] && rm $source_path
+    echo "Downloading the source file..."
+    download_source $install_type $version $source_path
+
+    # running this in a subshell
+    # because we don't want to disturb current working dir
+    (
+    cd $(dirname $source_path)
+    tar_dir=$file_name
+    [ -d $tar_dir ] && rm -rf $tar_dir
+    mkdir $tar_dir
+    tar zxf $source_path --strip-components 1 -C $tar_dir
+    cd $tar_dir
+
+    local configure_options="$(construct_configure_options)"
+    # set in os_based_configure_options
+    # we unset it here because echo-ing changes the return value of the function
+    unset ASDF_PKG_MISSING
+
+    echo "Building Coq with options: $configure_options"
+    ./configure $configure_options
+    make -j "${ASDF_CONCURRENCY:-1}"
+    make install
+    ) || (rm -rf $install_path; exit 1)
+}
+
+
+construct_configure_options() {
+    if [ "$Coq_CONFIGURE_OPTIONS" = "" ]; then
+        local configure_options="$(os_based_configure_options) -prefix $install_path"
+
+        if [ "$Coq_EXTRA_CONFIGURE_OPTIONS" != "" ]; then
+            configure_options="$configure_options $Coq_EXTRA_CONFIGURE_OPTIONS"
+        fi
+    else
+        local configure_options="$Coq_CONFIGURE_OPTIONS -prefix $install_path"
+    fi
+
+    echo "$configure_options"
+}
+
+
+os_based_configure_options() {
+    local operating_system=$(uname -a)
+    local configure_options=""
+
+    configure_options=""
+
+    echo $configure_options
+}
+
+
+download_source() {
+    local install_type=$1
+    local version=$2
+    local download_path=$3
+    local download_url=$(get_download_url $install_type $version)
+
+    curl -Lo $download_path -C - $download_url
+}
+
+
+get_download_file_path() {
+    local install_type=$1
+    local version=$2
+    local tmp_dir=$3
+    local file_name=$4
+    local pkg_name="$file_name.tar.gz"
+
+    echo "$tmp_dir/$pkg_name"
+}
+
+
+get_download_url() {
+    local install_type=$1
+    local version=$2
+    echo "https://api.github.com/repos/coq/coq/tarball/V${version}"
+}
+
+
+install_Coq $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
