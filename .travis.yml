@@ -7,6 +7,7 @@ before_script:
   - . asdf/asdf.sh
   - asdf plugin-add ocaml
   - asdf install ocaml 4.06.0
+  - asdf global ocaml 4.06.0
   - opam install -y ocamlfind camlp5
   - asdf reshim ocaml
 
