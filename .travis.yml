@@ -1,0 +1,15 @@
+language: generic
+
+script: asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git "coqc -v"
+
+before_script:
+  - git clone https://github.com/asdf-vm/asdf.git
+  - . asdf/asdf.sh
+  - asdf plugin-add ocaml
+  - asdf install ocaml $(asdf list-all ocaml | tail -1)
+  - opam install -y ocamlfind camlp5
+  - asdf reshim ocaml
+
+os:
+  - linux
+  - osx
