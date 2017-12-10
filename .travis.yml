@@ -17,6 +17,7 @@ matrix:
           opam install -y ocamlfind camlp5
           git clone https://github.com/asdf-vm/asdf.git
           . asdf/asdf.sh
+          export ASDF_CONCURRENCY=4
           asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc --help'
           EOF
       after_script:
@@ -26,10 +27,12 @@ matrix:
       before_script:
         - brew install ocaml opam
         - opam init -y
+        - opam config setup -a
         - eval `opam config env`
         - opam install -y ocamlfind camlp5
         - git clone https://github.com/asdf-vm/asdf.git
         - . asdf/asdf.sh
+        - export ASDF_CONCURRENCY=4
       script:
         - |
           bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
