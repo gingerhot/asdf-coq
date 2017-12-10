@@ -25,7 +25,7 @@ matrix:
     - os: osx
       before_script:
         - brew install ocaml opam
-        - opam init
+        - opam init -y
         - eval `opam config env`
         - opam install -y ocamlfind camlp5
         - git clone https://github.com/asdf-vm/asdf.git
