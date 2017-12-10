@@ -6,7 +6,7 @@
 ## Install
 
 ```shell
-asdf plugin-add coq https://github.com/gingerhot/asdf-coq.git
+asdf plugin-add coq https://github.com/gingerhot/asdf-coq
 ```
 
 ## Prerequisites
