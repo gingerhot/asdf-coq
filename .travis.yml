@@ -1,4 +1,4 @@
-language: generic
+language: c
 
 matrix:
   include:
@@ -32,8 +32,8 @@ matrix:
         - asdf plugin-add ocaml https://github.com/vic/asdf-ocaml.git
         - asdf install ocaml 4.06.0
         - asdf global ocaml 4.06.0
-        - eval `opam config env --root=/Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0`
         - echo '. /Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0/opam-init/init.sh > /dev/null 2> /dev/null || true' >> ~/.bash_profile
+        - cat ~/.bash_profile
         - opam install -y ocamlfind camlp5
         - asdf reshim ocaml
         - cat ~/.bash_profile
