@@ -28,10 +28,12 @@ matrix:
         - brew install aspcud
         - git clone https://github.com/asdf-vm/asdf.git
         - . asdf/asdf.sh
-        - echo -e "\n. $PWD/asdf/asdf.sh" >> ~/.bash_profile
+        - echo ". $PWD/asdf/asdf.sh" >> ~/.bash_profile
         - asdf plugin-add ocaml https://github.com/vic/asdf-ocaml.git
         - asdf install ocaml 4.06.0
         - asdf global ocaml 4.06.0
+        - eval `opam config env --root=/Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0`
+        - echo '. /Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0/opam-init/init.sh > /dev/null 2> /dev/null || true' >> ~/.bash_profile
         - opam install -y ocamlfind camlp5
         - asdf reshim ocaml
         - cat ~/.bash_profile
@@ -40,7 +42,6 @@ matrix:
         - |
           bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
           export PING_LOOP_PID=$!
-        - export COQ_EXTRA_CONFIGURE_OPTIONS="-camldir /Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0/4.06.0/bin"
         - asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
       after_script:
         - kill -9 $PING_LOOP_PID
