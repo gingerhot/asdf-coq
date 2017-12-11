@@ -42,14 +42,14 @@ install_Coq() {
 
 
 construct_configure_options() {
-    if [ "$Coq_CONFIGURE_OPTIONS" = "" ]; then
+    if [ "$COQ_CONFIGURE_OPTIONS" = "" ]; then
         local configure_options="$(os_based_configure_options) -prefix $install_path"
 
-        if [ "$Coq_EXTRA_CONFIGURE_OPTIONS" != "" ]; then
-            configure_options="$configure_options $Coq_EXTRA_CONFIGURE_OPTIONS"
+        if [ "$COQ_EXTRA_CONFIGURE_OPTIONS" != "" ]; then
+            configure_options="$configure_options $COQ_EXTRA_CONFIGURE_OPTIONS"
         fi
     else
-        local configure_options="$Coq_CONFIGURE_OPTIONS -prefix $install_path"
+        local configure_options="$COQ_CONFIGURE_OPTIONS -prefix $install_path"
     fi
 
     echo "$configure_options"
