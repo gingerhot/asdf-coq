@@ -47,6 +47,6 @@ matrix:
         - |
           bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
           export PING_LOOP_PID=$!
-        - asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
+        - PATH="/Users/travis/build/gingerhot/asdf-coq/asdf/shims:$PATH" asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
       after_script:
         - kill -9 $PING_LOOP_PID
