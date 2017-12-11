@@ -49,7 +49,7 @@ matrix:
           export PING_LOOP_PID=$!
         - ls /Users/travis/build/gingerhot/asdf-coq/asdf/shims
         - export PATH="/Users/travis/build/gingerhot/asdf-coq/asdf/shims:$PATH"
-        - export COQ_EXTRA_CONFIGURE_OPTIONS="-camldir /Users/travis/build/gingerhot/asdf-coq/asdf/shims"
+        - export COQ_EXTRA_CONFIGURE_OPTIONS="-camldir /Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0/4.06.0/bin"
         - asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
       after_script:
         - kill -9 $PING_LOOP_PID
