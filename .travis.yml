@@ -38,10 +38,8 @@ matrix:
                   try Topdirs.dir_directory (Sys.getenv "OCAML_TOPLEVEL_PATH")
                   with Not_found -> ()
                 ;;' > ~/.ocamlinit
-        - cat ~/.bash_profile
         - opam install -y ocamlfind camlp5
         - asdf reshim ocaml
-        - cat ~/.bash_profile
         - export ASDF_CONCURRENCY=4
       script:
         - |
