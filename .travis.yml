@@ -18,7 +18,7 @@ matrix:
           git clone https://github.com/asdf-vm/asdf.git
           . asdf/asdf.sh
           export ASDF_CONCURRENCY=4
-          asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc --help'
+          asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
           EOF
       after_script:
         - kill -9 $PING_LOOP_PID
@@ -29,7 +29,6 @@ matrix:
         - git clone https://github.com/asdf-vm/asdf.git
         - . asdf/asdf.sh
         - echo -e '\n. $HOME/asdf/asdf.sh' >> ~/.bash_profile
-        - echo -e '\n. $HOME/asdf/completions/asdf.bash' >> ~/.bash_profile
         - asdf plugin-add ocaml https://github.com/vic/asdf-ocaml.git
         - asdf install ocaml 4.06.0
         - asdf global ocaml 4.06.0
@@ -40,6 +39,9 @@ matrix:
         - |
           bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
           export PING_LOOP_PID=$!
-        - asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc --help'
+        - ocaml -version
+        - . $HOME/asdf/asdf.sh
+        - ASDF_OCAML_VERSION=4.06.0 ocaml -version
+        - ASDF_OCAML_VERSION=4.06.0 asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
       after_script:
         - kill -9 $PING_LOOP_PID
