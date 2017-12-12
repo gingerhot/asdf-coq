@@ -19,7 +19,7 @@ asdf plugin-add coq https://github.com/gingerhot/asdf-coq
 you need install some packages for building Coq:
 
 ```
-opam install -y ocamlfind camlp5
+opam install -y num ocamlfind camlp5
 ```
 
 ## Usage
