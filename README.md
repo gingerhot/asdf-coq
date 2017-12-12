@@ -41,4 +41,4 @@ More `asdf` command details to [asdf](https://github.com/asdf-vm/asdf) README.
 ## Note
 
 * CoqIDE not included in this installation
-* Some Coq version depends on OCaml version, e.g. for Coq 8.6.1, OCaml must comply >= "4.01.0" and < "4.06.0". You may also need asdf [OCaml plugin](https://github.com/vic/asdf-ocaml) to install corresponding version OCaml at first.
+* Some Coq version depends on OCaml version, e.g. for Coq 8.6.1, OCaml must comply >= "4.01.0" and < "4.06.0". More info see `Available` item in: https://opam.ocaml.org/packages/coq/coq.8.6.1/ (change the 8.6.1 to your version). You may also need asdf [OCaml plugin](https://github.com/vic/asdf-ocaml) to install corresponding version OCaml at first.
