@@ -28,6 +28,7 @@ matrix:
         - git clone https://github.com/asdf-vm/asdf.git
         - . asdf/asdf.sh
         - brew install ocaml
+        - brew install ocaml-num
         - brew install opam
         - opam init -y
         - eval `opam config env`
