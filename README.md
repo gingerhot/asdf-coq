@@ -1,5 +1,7 @@
 # asdf-coq
 
+[![Build Status](https://travis-ci.org/gingerhot/asdf-coq.svg?branch=master)](https://travis-ci.org/gingerhot/asdf-coq)
+
 [Coq](https://coq.inria.fr/) plugin for [asdf](https://github.com/asdf-vm/asdf) version manager.
 
 
