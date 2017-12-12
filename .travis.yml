@@ -25,30 +25,18 @@ matrix:
 
     - os: osx
       before_script:
-        - brew install aspcud
         - git clone https://github.com/asdf-vm/asdf.git
         - . asdf/asdf.sh
-        - echo ". $PWD/asdf/asdf.sh" >> ~/.bash_profile
-        - asdf plugin-add ocaml https://github.com/vic/asdf-ocaml.git
-        - asdf install ocaml 4.06.0
-        - asdf global ocaml 4.06.0
-        - echo '. /Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0/opam-init/init.sh > /dev/null 2> /dev/null || true' >> ~/.bash_profile
-        - |
-          echo 'let () =
-                  try Topdirs.dir_directory (Sys.getenv "OCAML_TOPLEVEL_PATH")
-                  with Not_found -> ()
-                ;;' > ~/.ocamlinit
+        - brew install ocaml
+        - brew install opam
+        - opam init -y
+        - eval `opam config env`
         - opam install -y ocamlfind camlp5
-        - asdf reshim ocaml
-        - export ASDF_CONCURRENCY=4
       script:
         - |
           bash -c "while true; do echo \$(date) - travis building ...; sleep 540; done" &
           export PING_LOOP_PID=$!
-        - ls /Users/travis/build/gingerhot/asdf-coq/asdf/shims
-        - export CAMEL_PATH="/Users/travis/build/gingerhot/asdf-coq/asdf/installs/ocaml/4.06.0/4.06.0/bin"
-        - export PATH="$CAMEL_PATH:$PATH"
-        - export COQ_EXTRA_CONFIGURE_OPTIONS="-camldir $CAMEL_PATH"
+        - export ASDF_CONCURRENCY=4
         - asdf plugin-test coq https://github.com/gingerhot/asdf-coq.git 'coqc -v'
       after_script:
         - kill -9 $PING_LOOP_PID
